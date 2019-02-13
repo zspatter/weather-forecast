@@ -10,7 +10,7 @@ Locations can be searched by city name, postal code, or coordinates. Furthermore
 * Command line management in Python
 * File IO operations in Python
 
-## To do
+## Tasks
 - [x] Add coordinates support
 - [ ] Add support for other measurments such as humidity and visibility
 - [ ] Add toggle for units (mtric vs imperial)
