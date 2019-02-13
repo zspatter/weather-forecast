@@ -13,4 +13,4 @@ Locations can be searched by city name, postal code, or coordinates. Furthermore
 ## Tasks
 - [x] Add coordinates support
 - [ ] Add support for other measurments such as humidity and visibility
-- [ ] Add toggle for units (mtric vs imperial)
+- [ ] Add toggle for units (metric vs imperial)
