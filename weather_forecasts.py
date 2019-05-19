@@ -1,11 +1,6 @@
-"""
-Zachary Patterson
-Assignment 1
-2019-01-29
-CSCI-311
-"""
-import pyowm
 import csv
+
+import pyowm
 
 # creates OWM object with my unique API key
 owm = pyowm.OWM('e8105e17092b41b8c9eb198d7692a4f2', '2.5')
@@ -15,14 +10,14 @@ forecasts = []
 # across the entire program
 # (dict keys are referenced rather than using literals)
 menu_options = {'city': '1', 'postal': '2', 'coords': '3'}
-saved_data_fields = {'loc': 'Location',
-     'time': 'Time (UTC)',
-     'desc': 'Description',
-     'temp_min': 'Minimum Temperature (°C)',
-     'temp_max': 'Maximum Temperature (°C)',
-     'wind': 'Wind Speed (m/s)',
-     'rain': 'Rain Accumulation (cm)',
-     'snow': 'Snow Accumulation (cm)'}
+saved_data_fields = {'loc':      'Location',
+                     'time':     'Time (UTC)',
+                     'desc':     'Description',
+                     'temp_min': 'Minimum Temperature (°C)',
+                     'temp_max': 'Maximum Temperature (°C)',
+                     'wind':     'Wind Speed (m/s)',
+                     'rain':     'Rain Accumulation (cm)',
+                     'snow':     'Snow Accumulation (cm)'}
 
 
 # prints prompt with menu options to lookup 
@@ -33,7 +28,6 @@ def print_prompt():
     print(f"\tEnter {menu_options['postal']} to search by postal code and country code.")
     print(f"\tEnter {menu_options['coords']} to search by coordinates.")
     print(f"\tEnter 'EXIT' to quit.")
-    return
 
 
 # begins loop that continually prints menu prompt and accepts
@@ -64,7 +58,6 @@ def input_loop():
             print_forecast(forecaster)
 
     dump_forecasts()
-    return
 
 
 # searches for city by name and country code
@@ -81,7 +74,6 @@ def get_forecaster_from_name():
         return forecaster
     except pyowm.exceptions.api_response_error.NotFoundError:
         print('\nThere was an error using the parameters entered. Try again.\n')
-        return
 
 
 # searches for city by zip code and country code
@@ -98,7 +90,6 @@ def get_forecaster_from_postal():
         return forecaster
     except pyowm.exceptions.api_response_error.NotFoundError:
         print('\nThere was an error using the parameters entered. Try again.\n')
-        return
 
 
 # searches for location by latitude and longitude
@@ -129,7 +120,6 @@ def get_forecaster_from_coordinates():
     # otherwise, print error message and return to input loop
     else:
         print("\nThe parameters entered are invalid. Try again.\n")
-        return
 
 
 # return bool indicating whether a string can be cast to float
@@ -178,7 +168,8 @@ def print_forecast(forecaster):
         print(f"{location.get_name()} at "
               f"{weather.get_reference_time('iso')}"
               f"\n\tDescription:\t\t{weather.get_detailed_status()}"
-              f"\n\tTemperature (°C):\tminimum =  {weather.get_temperature(unit='celsius')['temp_min']}"
+              f"\n\tTemperature (°C):"
+              f"\tminimum = {weather.get_temperature(unit='celsius')['temp_min']}"
               f"\tmaximum = {weather.get_temperature(unit='celsius')['temp_max']}"
               f"\n\tWind Speed (m/s):\t{weather.get_wind()['speed']}"
               f"\n\tRainfall (cm):\t\t{rainfall}"
@@ -187,18 +178,17 @@ def print_forecast(forecaster):
         # appends forecasts list with a dict containing the values printed above
         # effectively, this creates a list of dicts with each individual dict
         # representing a specific 3 hour interval forecast
-        forecasts.append({saved_data_fields['loc']: location.get_name(),
-                          saved_data_fields['time']: weather.get_reference_time('iso'),
-                          saved_data_fields['desc']: weather.get_detailed_status(),
+        forecasts.append({saved_data_fields['loc']:      location.get_name(),
+                          saved_data_fields['time']:     weather.get_reference_time('iso'),
+                          saved_data_fields['desc']:     weather.get_detailed_status(),
                           saved_data_fields['temp_min']: weather.get_temperature(unit='celsius')['temp_min'],
                           saved_data_fields['temp_max']: weather.get_temperature(unit='celsius')['temp_max'],
-                          saved_data_fields['wind']: weather.get_wind()['speed'],
-                          saved_data_fields['rain']: rainfall,
-                          saved_data_fields['snow']: snowfall})
+                          saved_data_fields['wind']:     weather.get_wind()['speed'],
+                          saved_data_fields['rain']:     rainfall,
+                          saved_data_fields['snow']:     snowfall})
 
     # separates forecast details and menu options
     print('=============================================================\n')
-    return
 
 
 # all of the data printed to the console is dumped to forecasts.csv
@@ -221,7 +211,6 @@ def dump_forecasts():
                 writer.writerow(data)
     except IOError:
         print('I/O error')
-    return
 
 
 input_loop()
