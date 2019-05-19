@@ -141,3 +141,4 @@ $RECYCLE.BIN/
 .idea/workspace.xml
 *.xml
 *.iml
+*.csv
