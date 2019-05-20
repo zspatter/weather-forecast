@@ -20,9 +20,11 @@ saved_data_fields = {'loc':      'Location',
                      'snow':     'Snow Accumulation (cm)'}
 
 
-# prints prompt with menu options to lookup 
-# by city name, postal code, coordinates, or exit
 def print_prompt():
+    """
+    Prints a static prompt that indicates that various menu options.
+    These options correspond to a lookup method or termination.
+    """
     print("Menu options:")
     print(f"\tEnter {menu_options['city']} to search by city name and country code.")
     print(f"\tEnter {menu_options['postal']} to search by postal code and country code.")
@@ -30,11 +32,17 @@ def print_prompt():
     print(f"\tEnter 'EXIT' to quit.")
 
 
-# begins loop that continually prints menu prompt and accepts
-# input calling the functions corresponding with either lookup
-# by city name, postal code, or coordinates when the loop exits,
-# it calls a function to dump all data to a .csv file
 def input_loop():
+    """
+    Loops that continually prints the menu prompt and accepts input
+    that either indicates lookup method (city name, postal code, or
+    coordinates) or exit. This function calls the corresponding lookup
+    method that gathers, prints, and stores the weather data. This
+    function is the basis for this CLI.
+
+    Upon termination, this program dumps all of the gathered data for
+    all queried locations to a .csv file.
+    """
     while True:
         print_prompt()
         user_input = input("\nEnter your choice: ")
@@ -60,10 +68,13 @@ def input_loop():
     dump_forecasts()
 
 
-# searches for city by name and country code
-# if entered parameters match a valid location,
-# Forecaster object is created and returned
 def get_forecaster_from_name():
+    """
+    Queries location by city name and country code. Iff the gathered
+    details correspond to a valid location, a Forecaster object
+    (from PyOWM library). Otherwise, an error message is printed and
+    control returns to input_loop.
+    """
     city = input("Enter the city name: ")
     country_code = input("Enter the country code: ")
     lookup = city + ',' + country_code
@@ -76,10 +87,13 @@ def get_forecaster_from_name():
         print('\nThere was an error using the parameters entered. Try again.\n')
 
 
-# searches for city by zip code and country code
-# if entered parameters match a valid location,
-# Forecaster object is created and returned
 def get_forecaster_from_postal():
+    """
+    Queries location by postal code and country code. Iff the gathered
+    details correspond to a valid location, a Forecaster object
+    (from PyOWM library). Otherwise, an error message is printed and
+    control returns to input_loop.
+    """
     zip_code = input("Enter the postal code: ")
     country_code = input("Enter the country code: ")
     lookup = zip_code + ',' + country_code
@@ -92,10 +106,12 @@ def get_forecaster_from_postal():
         print('\nThere was an error using the parameters entered. Try again.\n')
 
 
-# searches for location by latitude and longitude
-# if entered parameters match a valid location,
-# Forecaster object is created and returned
 def get_forecaster_from_coordinates():
+    """
+    Queries location by coordinates. Iff the gathered details correspond
+    to a valid location, a Forecaster object (from PyOWM library).
+    Otherwise, an error message is printed and control returns to input_loop.
+    """
     lat = input("Enter the latitude: ")
     long = input("Enter the longitude ")
 
@@ -122,8 +138,14 @@ def get_forecaster_from_coordinates():
         print("\nThe parameters entered are invalid. Try again.\n")
 
 
-# return bool indicating whether a string can be cast to float
 def is_number(string):
+    """
+    Helper function that determines if input from console is numeric.
+    This is used to help determine if gathers coordinates are valid.
+
+    :param str string: input gathered from console
+    :return: bool indicating if a string can be cast to float
+    """
     try:
         float(string)
         return True
@@ -131,15 +153,20 @@ def is_number(string):
         return False
 
 
-# iterates through forecast for given location printing location name,
-# date/time for forecast details, a short description of weather at the
-# given time, temperature range, wind speed, rainfall, and snowfall
-# 
-# after printing the details for a given interval,
-# the printed values are appended to forecasts[] as a dict
-# 
-# the loop then iterates through forecasts for the next 5 days at 3 hour intervals
 def print_forecast(forecaster):
+    """
+    Iterates through forecast for a given location printing location
+    name, date/time for corresponding forecast details, a short description
+    of weather at the given time, temperate range, wind speed, rainfall,
+    and snowfall.
+
+    After printing the details for a given interval, the printed values
+    are added to the forecasts list as dict.
+
+    The loop iterates through forecasts for the next 5 days at 3 hour intervals.
+    :param Forecaster forecaster: generated via input from console in
+        one of the get_forecaster_X() functions.
+    """
     # creates forecast object from forecaster
     forecast = forecaster.get_forecast()
     location = forecast.get_location()
@@ -191,9 +218,12 @@ def print_forecast(forecaster):
     print('=============================================================\n')
 
 
-# all of the data printed to the console is dumped to forecasts.csv
-# (each city's 5-day forecast is represented with 40 rows)
 def dump_forecasts():
+    """
+    All of the data printed to the console in this session is dumped
+    to forecasts.csv (each location's 5-day forecast is represented
+    by 40 rows).
+    """
     try:
         # opens csv file to write to
         with open('forecasts.csv', 'w') as data_dump:
