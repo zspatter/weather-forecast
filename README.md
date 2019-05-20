@@ -5,6 +5,7 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/zspatter/weather-forecast.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/zspatter/weather-forecast/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/zspatter/weather-forecast.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/zspatter/weather-forecast/context:python)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/09d7842eba10488d8469f5ece1076945?style=plastic)](https://www.codacy.com/app/localhost_2/weather-forecast?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=zspatter/weather-forecast&amp;utm_campaign=Badge_Grade)
+
 A Python script that displays the 5-day weather forecast (3 hour intervals) for a given location. This was implemented using the pyOWM API (Open Weather Map). 
 
 Locations can be searched by city name, postal code, or coordinates. Furthermore, after searching a given location, the forecast is printed to the console. After the forecast finishes, the user is prompted to search for another location. The script doesn't terminate until the user exits. Just before terminating, the forecasts for any search locations are dumped to a .csv file.
