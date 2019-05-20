@@ -1,6 +1,6 @@
 # Weather-Forecast
-[![Python Version](https://img.shields.io/badge/python-3.4%20%7C%203.5%20%7C%203.6%20%7C%203.7-blue.svg?style=plastic)](https://www.python.org/downloads/)
-[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg?style=plastic)](http://unlicense.org/)
+[![Python Version](https://img.shields.io/badge/python-3.4%20%7C%203.5%20%7C%203.6%20%7C%203.7-blue.svg)](https://www.python.org/downloads/)
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 <br>
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/zspatter/weather-forecast.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/zspatter/weather-forecast/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/zspatter/weather-forecast.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/zspatter/weather-forecast/context:python)
