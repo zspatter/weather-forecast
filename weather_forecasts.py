@@ -2,6 +2,10 @@ import csv
 from typing import Optional, List, Dict, Any, Union
 
 import pyowm
+from pyowm.weatherapi25 import owm25
+
+forecaster_type = pyowm.weatherapi25.Forecaster
+forecast_type = pyowm.weatherapi25.Forecast
 
 # creates OWM object with my unique API key
 owm = pyowm.OWM(API_key='e8105e17092b41b8c9eb198d7692a4f2', version='2.5')
@@ -45,18 +49,17 @@ def input_loop() -> None:
     """
     while True:
         print_prompt()
-        forecaster: Optional[pyowm.Forecaster]
         user_input: str = input("\nEnter your choice: ")
 
         # breaks loop if 'EXIT' is entered
         if user_input.upper() == 'EXIT':
             break
         elif user_input == menu_options['city']:
-            forecaster = get_forecaster_from_name()
+            forecaster: Optional[forecaster_type] = get_forecaster_from_name()
         elif user_input == menu_options['postal']:
-            forecaster = get_forecaster_from_postal()
+            forecaster: Optional[forecaster_type] = get_forecaster_from_postal()
         elif user_input == menu_options['coords']:
-            forecaster = get_forecaster_from_coordinates()
+            forecaster: Optional[forecaster_type] = get_forecaster_from_coordinates()
         else:
             print('Invalid input. Try again.\n')
             continue
@@ -69,53 +72,50 @@ def input_loop() -> None:
     dump_forecasts()
 
 
-def get_forecaster_from_name() -> Optional[pyowm.Forecaster]:
+def get_forecaster_from_name() -> Optional[forecaster_type]:
     """
     Queries location by city name and country code. Iff the gathered
     details correspond to a valid location, a Forecaster object
     (from PyOWM library). Otherwise, an error message is printed and
     control returns to input_loop.
     """
-    forecaster: Optional[pyowm.Forecaster]
     city: str = input("Enter the city name: ")
     country_code: str = input("Enter the country code: ")
     lookup: str = city + ',' + country_code
 
     # creates Forecaster object using the location details from console
     try:
-        forecaster = owm.three_hours_forecast(lookup)
+        forecaster: Optional[forecaster_type] = owm.three_hours_forecast(lookup)
         return forecaster
     except pyowm.exceptions.api_response_error.NotFoundError:
         print('\nThere was an error using the parameters entered. Try again.\n')
 
 
-def get_forecaster_from_postal() -> Optional[pyowm.Forecaster]:
+def get_forecaster_from_postal() -> Optional[forecaster_type]:
     """
     Queries location by postal code and country code. Iff the gathered
     details correspond to a valid location, a Forecaster object
     (from PyOWM library). Otherwise, an error message is printed and
     control returns to input_loop.
     """
-    forecaster: Optional[pyowm.Forecaster]
     zip_code: str = input("Enter the postal code: ")
     country_code: str = input("Enter the country code: ")
     lookup: str = zip_code + ',' + country_code
 
     # creates Forecaster object using the location details from console
     try:
-        forecaster = owm.three_hours_forecast(lookup)
+        forecaster: Optional[forecaster_type] = owm.three_hours_forecast(lookup)
         return forecaster
     except pyowm.exceptions.api_response_error.NotFoundError:
         print('\nThere was an error using the parameters entered. Try again.\n')
 
 
-def get_forecaster_from_coordinates() -> Optional[pyowm.Forecaster]:
+def get_forecaster_from_coordinates() -> Optional[forecaster_type]:
     """
     Queries location by coordinates. Iff the gathered details correspond
     to a valid location, a Forecaster object (from PyOWM library).
     Otherwise, an error message is printed and control returns to input_loop.
     """
-    forecaster: Optional[pyowm.Forecaster]
     lat: Union[str, float] = input("Enter the latitude: ")
     long: Union[str, float] = input("Enter the longitude ")
 
@@ -132,7 +132,7 @@ def get_forecaster_from_coordinates() -> Optional[pyowm.Forecaster]:
     if -90 <= lat <= 90 and -180 <= long <= 180:
         # creates forecaster object using coordinates
         try:
-            forecaster = owm.three_hours_forecast_at_coords(lat, long)
+            forecaster: Optional[forecaster_type] = owm.three_hours_forecast_at_coords(lat, long)
             return forecaster
         except pyowm.exceptions.api_response_error.NotFoundError:
             print('\nThere was an error using the parameters entered. Try again.\n')
@@ -157,7 +157,7 @@ def is_number(string: str) -> bool:
         return False
 
 
-def print_forecast(forecaster: pyowm.Forecaster) -> None:
+def print_forecast(forecaster: forecaster_type) -> None:
     """
     Iterates through forecast for a given location printing location
     name, date/time for corresponding forecast details, a short description
@@ -172,7 +172,7 @@ def print_forecast(forecaster: pyowm.Forecaster) -> None:
         one of the get_forecaster_X() functions.
     """
     # creates forecast object from forecaster
-    forecast: pyowm.Forecast = forecaster.get_forecast()
+    forecast: forecast_type = forecaster.get_forecast()
     location = forecast.get_location()
     print('\n')
 
