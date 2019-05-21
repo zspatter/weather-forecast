@@ -2,7 +2,6 @@ import csv
 from typing import Any, Dict, List, Optional, Union
 
 import pyowm
-from pyowm.weatherapi25 import Forecaster, Forecast
 
 # creates OWM object with my unique API key
 # (if forked, replace API key - keys can be generated here: https://openweathermap.org/appid)
@@ -27,11 +26,17 @@ def print_prompt() -> None:
     Prints a static prompt that indicates that various menu options.
     These options correspond to a lookup method or termination.
     """
+    ansi_bold: str = '\033[30m'
+    ansi_reset: str = '\033[0m'
+
     print("Menu options:")
-    print(f"\tEnter {menu_options['city']} to search by city name and country code.")
-    print(f"\tEnter {menu_options['postal']} to search by postal code and country code.")
-    print(f"\tEnter {menu_options['coords']} to search by coordinates.")
-    print(f"\tEnter 'EXIT' to quit.")
+    print(f"\tEnter {ansi_bold}{menu_options['city']}{ansi_reset}: "
+          f"\t\tsearch by city name and country code")
+    print(f"\tEnter {ansi_bold}{menu_options['postal']}{ansi_reset}: "
+          f"\t\tsearch by postal code and country code")
+    print(f"\tEnter {ansi_bold}{menu_options['coords']}{ansi_reset}: "
+          f"\t\tsearch by coordinates")
+    print(f"\tEnter {ansi_bold}EXIT{ansi_reset}: \tquit")
 
 
 def input_loop() -> None:
@@ -53,11 +58,11 @@ def input_loop() -> None:
         if user_input.upper() == 'EXIT':
             break
         elif user_input == menu_options['city']:
-            forecaster: Optional[Forecaster] = get_forecaster_from_name()
+            forecaster: Optional['Forecaster'] = get_forecaster_from_name()
         elif user_input == menu_options['postal']:
-            forecaster: Optional[Forecaster] = get_forecaster_from_postal()
+            forecaster: Optional['Forecaster'] = get_forecaster_from_postal()
         elif user_input == menu_options['coords']:
-            forecaster: Optional[Forecaster] = get_forecaster_from_coordinates()
+            forecaster: Optional['Forecaster'] = get_forecaster_from_coordinates()
         else:
             print('Invalid input. Try again.\n')
             continue
@@ -70,7 +75,7 @@ def input_loop() -> None:
     dump_forecasts()
 
 
-def get_forecaster_from_name() -> Optional[Forecaster]:
+def get_forecaster_from_name() -> Optional['Forecaster']:
     """
     Queries location by city name and country code. Iff the gathered
     details correspond to a valid location, a Forecaster object
@@ -83,13 +88,13 @@ def get_forecaster_from_name() -> Optional[Forecaster]:
 
     # creates Forecaster object using the location details from console
     try:
-        forecaster: Optional[Forecaster] = owm.three_hours_forecast(lookup)
+        forecaster: Optional['Forecaster'] = owm.three_hours_forecast(lookup)
         return forecaster
     except pyowm.exceptions.api_response_error.NotFoundError:
         print('\nThere was an error using the parameters entered. Try again.\n')
 
 
-def get_forecaster_from_postal() -> Optional[Forecaster]:
+def get_forecaster_from_postal() -> Optional['Forecaster']:
     """
     Queries location by postal code and country code. Iff the gathered
     details correspond to a valid location, a Forecaster object
@@ -102,13 +107,13 @@ def get_forecaster_from_postal() -> Optional[Forecaster]:
 
     # creates Forecaster object using the location details from console
     try:
-        forecaster: Optional[Forecaster] = owm.three_hours_forecast(lookup)
+        forecaster: Optional['Forecaster'] = owm.three_hours_forecast(lookup)
         return forecaster
     except pyowm.exceptions.api_response_error.NotFoundError:
         print('\nThere was an error using the parameters entered. Try again.\n')
 
 
-def get_forecaster_from_coordinates() -> Optional[Forecaster]:
+def get_forecaster_from_coordinates() -> Optional['Forecaster']:
     """
     Queries location by coordinates. Iff the gathered details correspond
     to a valid location, a Forecaster object (from PyOWM library).
@@ -130,7 +135,7 @@ def get_forecaster_from_coordinates() -> Optional[Forecaster]:
     if -90 <= lat <= 90 and -180 <= long <= 180:
         # creates forecaster object using coordinates
         try:
-            forecaster: Optional[Forecaster] = owm.three_hours_forecast_at_coords(lat, long)
+            forecaster: Optional['Forecaster'] = owm.three_hours_forecast_at_coords(lat, long)
             return forecaster
         except pyowm.exceptions.api_response_error.NotFoundError:
             print('\nThere was an error using the parameters entered. Try again.\n')
@@ -155,7 +160,7 @@ def is_number(string: str) -> bool:
         return False
 
 
-def print_forecast(forecaster: Forecaster) -> None:
+def print_forecast(forecaster: 'Forecaster') -> None:
     """
     Iterates through forecast for a given location printing location
     name, date/time for corresponding forecast details, a short description
@@ -170,8 +175,11 @@ def print_forecast(forecaster: Forecaster) -> None:
         one of the get_forecaster_X() functions.
     """
     # creates forecast object from forecaster
-    forecast: Forecast = forecaster.get_forecast()
+    forecast: 'Forecast' = forecaster.get_forecast()
     location = forecast.get_location()
+    ansi_bold: str = '\033[1m'
+    ansi_yellow: str = '\033[33m'
+    ansi_reset: str = '\033[0m'
     print('\n')
 
     for weather in forecast:
@@ -194,15 +202,15 @@ def print_forecast(forecaster: Forecaster) -> None:
             snowfall = weather.get_snow()['3h']
 
         # prints forecast
-        print(f"{location.get_name()} at "
-              f"{weather.get_reference_time('iso')}"
-              f"\n\tDescription:\t\t{weather.get_detailed_status()}"
-              f"\n\tTemperature (°C):"
-              f"\tminimum = {weather.get_temperature(unit='celsius')['temp_min']}"
-              f"\tmaximum = {weather.get_temperature(unit='celsius')['temp_max']}"
-              f"\n\tWind Speed (m/s):\t{weather.get_wind()['speed']}"
-              f"\n\tRainfall (cm):\t\t{rainfall}"
-              f"\n\tSnowfall (cm):\t\t{snowfall}\n")
+        print(f"{ansi_bold}{location.get_name()} at "
+              f"{weather.get_reference_time('iso')}{ansi_reset}"
+              f"\n\tDescription:\t\t{ansi_yellow}{weather.get_detailed_status()}{ansi_reset}"
+              f"\n\tTemperature (°C):\t{ansi_yellow}"
+              f"{weather.get_temperature(unit='celsius')['temp_min']} - "
+              f"{weather.get_temperature(unit='celsius')['temp_max']}{ansi_reset}"
+              f"\n\tWind Speed (m/s):\t{ansi_yellow}{weather.get_wind()['speed']}{ansi_reset}"
+              f"\n\tRainfall (cm):\t\t{ansi_yellow}{rainfall}{ansi_reset}"
+              f"\n\tSnowfall (cm):\t\t{ansi_yellow}{snowfall}{ansi_reset}\n")
 
         # appends forecasts list with a dict containing the values printed above
         # effectively, this creates a list of dicts with each individual dict
