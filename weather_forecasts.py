@@ -52,7 +52,7 @@ def input_loop() -> None:
     """
     while True:
         print_prompt()
-        user_input: str = input("\nEnter your choice: ")
+        user_input: str = input("\nEnter menu option: ")
 
         # breaks loop if 'EXIT' is entered
         if user_input.upper() == 'EXIT':
@@ -200,16 +200,20 @@ def print_forecast(forecaster: 'Forecaster') -> None:
         if snow_length > 0:
             snowfall = weather.get_snow()['3h']
 
+        temp_min = weather.get_temperature(unit='celsius')['temp_min']
+        temp_max = weather.get_temperature(unit='celsius')['temp_max']
+
+        # logic that ensures temp range is only displayed if min and max values differ
+        temperature = temp_min if temp_min == temp_max else "{} - {}".format(temp_min, temp_max)
+
         # prints forecast
         print(f"\n{ansi_bold}{location.get_name()} at "
               f"{weather.get_reference_time('iso')}{ansi_reset}"
               f"\n\tDescription:\t\t{ansi_yellow}{weather.get_detailed_status()}{ansi_reset}"
-              f"\n\tTemperature (°C):\t{ansi_yellow}"
-              f"{weather.get_temperature(unit='celsius')['temp_min']} - "
-              f"{weather.get_temperature(unit='celsius')['temp_max']}{ansi_reset}"
+              f"\n\tTemperature (°C):\t{ansi_yellow}{temperature}{ansi_reset}"
               f"\n\tWind Speed (m/s):\t{ansi_yellow}{weather.get_wind()['speed']}{ansi_reset}"
               f"\n\tRainfall (cm):\t\t{ansi_yellow}{rainfall}{ansi_reset}"
-              f"\n\tSnowfall (cm):\t\t{ansi_yellow}{snowfall}{ansi_reset}\n")
+              f"\n\tSnowfall (cm):\t\t{ansi_yellow}{snowfall}{ansi_reset}")
 
         # appends forecasts list with a dict containing the values printed above
         # effectively, this creates a list of dicts with each individual dict
@@ -226,7 +230,7 @@ def print_forecast(forecaster: 'Forecaster') -> None:
                           saved_data_fields['snow']:     snowfall})
 
     # separates forecast details and menu options
-    print('=============================================================\n')
+    print(f'\n{ansi_bold}========================================{ansi_reset}\n')
 
 
 def dump_forecasts() -> None:
