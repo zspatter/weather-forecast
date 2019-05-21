@@ -11,6 +11,8 @@ A Python script that displays the 5-day weather forecast (3 hour intervals) for 
 
 Locations can be searched by city name, postal code, or coordinates. Furthermore, after searching a given location, the forecast is printed to the console. After the forecast finishes, the user is prompted to search for another location. The script doesn't terminate until the user exits. Just before terminating, the forecasts for any search locations are dumped to a .csv file.
 
+## Sample Output
+![sample console output](https://github.com/zspatter/weather-forecast/blob/master/sample_output.png)
 ## What I Learned
 * Python Syntax
 * Familiarity with using APIs
