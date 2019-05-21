@@ -180,7 +180,6 @@ def print_forecast(forecaster: 'Forecaster') -> None:
     ansi_bold: str = '\033[1m'
     ansi_yellow: str = '\033[33m'
     ansi_reset: str = '\033[0m'
-    print('\n')
 
     for weather in forecast:
         # weather.get_rain() and weather.get_snow() return either an empty
@@ -202,7 +201,7 @@ def print_forecast(forecaster: 'Forecaster') -> None:
             snowfall = weather.get_snow()['3h']
 
         # prints forecast
-        print(f"{ansi_bold}{location.get_name()} at "
+        print(f"\n{ansi_bold}{location.get_name()} at "
               f"{weather.get_reference_time('iso')}{ansi_reset}"
               f"\n\tDescription:\t\t{ansi_yellow}{weather.get_detailed_status()}{ansi_reset}"
               f"\n\tTemperature (°C):\t{ansi_yellow}"
