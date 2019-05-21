@@ -26,7 +26,7 @@ def print_prompt() -> None:
     Prints a static prompt that indicates that various menu options.
     These options correspond to a lookup method or termination.
     """
-    ansi_bold: str = '\033[30m'
+    ansi_bold: str = '\033[1m'
     ansi_reset: str = '\033[0m'
 
     print("Menu options:")
