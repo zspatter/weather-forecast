@@ -13,7 +13,7 @@ Locations can be searched by city name, postal code, or coordinates. Furthermore
 
 ## Sample Output
 <p align=center>
-  <img src=https://github.com/zspatter/weather-forecast/blob/master/sample_output.png alt=sample console output height=1200>
+  <img src=https://github.com/zspatter/weather-forecast/blob/master/sample_output.png alt=sample console output height=1100>
 </p>
 
 ## What I Learned
