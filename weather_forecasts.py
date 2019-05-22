@@ -36,7 +36,7 @@ def print_prompt() -> None:
           f"\t\tsearch by postal code and country code")
     print(f"\tEnter {ansi_bold}{menu_options['coords']}{ansi_reset}: "
           f"\t\tsearch by coordinates")
-    print(f"\tEnter {ansi_bold}EXIT{ansi_reset}: \tquit")
+    print(f"\tEnter {ansi_bold}exit{ansi_reset}: \tquit")
 
 
 def input_loop() -> None:
