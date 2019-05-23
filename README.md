@@ -22,7 +22,7 @@ $ sudo apt-get install python3 python3-pip
 For other Linux flavors, macOS and Windows, packages are available at <https://www.python.org/getit/>
 
 #### PyOWM
-Furthermore, you need the PyOWM wrapper library for OpenWeatherMap web APIs installed locally. This dependency can be installed through the pip installer like this:
+Furthermore, you need the PyOWM wrapper library for OpenWeatherMap web APIs installed locally. The dependency can be installed through the pip installer like this:
 ```
 $ pip install pyowm
 ```
@@ -33,11 +33,14 @@ $ pip install pyowm
 </p>
 
 ## What I Learned
-* Python Syntax
-* Familiarity with using APIs
+* Python syntax
+* pip installer usage
+* Familiarity with APIs (API calls, response errors, data management, etc.)
 * Data structures and data management in Python
 * Command line management in Python
 * File IO operations in Python
+* Type hinting in Python
+* DRY principle (don't repeat yourself)
 
 ## Tasks
 - [x] Add coordinates support
