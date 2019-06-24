@@ -69,7 +69,7 @@ def input_loop() -> None:
 
         # if exception thrown while creating Forecaster object,
         # forecaster will be set to None (and the loop restarts)
-        if forecaster is not None:
+        if not forecaster:
             print_forecast(forecaster)
 
     dump_forecasts()
